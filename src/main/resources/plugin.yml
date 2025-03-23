@@ -4,3 +4,11 @@ main: me.wyzebb.pl3xMapOfflinePlayersCompat.Pl3xMapOfflinePlayersCompat
 api-version: '1.21'
 authors: [Wyzebb]
 description: A plugin to add compatibility between offline players and Pl3xMap
+
+depend: [Pl3xMap]
+
+dependencies:
+  server:
+    Pl3xMap:
+      load: BEFORE
+      required: true
