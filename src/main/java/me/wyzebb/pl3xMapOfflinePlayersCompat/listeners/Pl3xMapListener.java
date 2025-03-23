@@ -16,6 +16,7 @@ import net.pl3x.map.core.world.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
 
@@ -30,8 +31,21 @@ public class Pl3xMapListener implements EventListener, Listener {
     public void onPlayerLeave(@NotNull PlayerQuitEvent event) {
         Player player = event.getPlayer();
         World world = Pl3xMap.api().getWorldRegistry().get(player.getWorld().getName());
+
         if (world != null && world.isEnabled() && world.getLayerRegistry().has(OfflineLayer.KEY)) {
             Pl3xMapOfflinePlayersCompat.register(new OfflineLoc(player));
+        }
+    }
+
+    @org.bukkit.event.EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onPlayerJoin(@NotNull PlayerJoinEvent event) {
+        Player player = event.getPlayer();
+        World world = Pl3xMap.api().getWorldRegistry().get(player.getWorld().getName());
+
+        if (world != null && world.isEnabled() && world.getLayerRegistry().has(OfflineLayer.KEY)) {
+            if (Pl3xMapOfflinePlayersCompat.has(player.getUniqueId().toString())) {
+                Pl3xMapOfflinePlayersCompat.unregister(player.getUniqueId().toString());
+            }
         }
     }
 
