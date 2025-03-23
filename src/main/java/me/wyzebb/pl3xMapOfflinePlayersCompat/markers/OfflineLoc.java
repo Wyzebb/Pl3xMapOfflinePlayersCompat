@@ -3,7 +3,10 @@ package me.wyzebb.pl3xMapOfflinePlayersCompat.markers;
 import java.util.Objects;
 import java.util.UUID;
 import net.pl3x.map.core.Keyed;
+import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.markers.Point;
+import net.pl3x.map.core.player.PlayerTexture;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -13,22 +16,30 @@ public class OfflineLoc extends Keyed {
     private final UUID uuid;
     private final Point point;
     private final long time;
+    private final String name;
+//    private final PlayerTexture skin;
 
     public OfflineLoc(@NotNull Player player) {
-        super(player.getName());
+        super(player.getUniqueId().toString());
 
         Location loc = player.getLocation();
         this.uuid = player.getUniqueId();
         this.point = Point.of(loc.getX(), loc.getZ());
         this.time = System.currentTimeMillis();
+        this.name = player.getName();
+//        this.skin = new PlayerTexture(Pl3xMap.api().getPlayerRegistry().get(player.getUniqueId()));
     }
+
+//    public @NotNull PlayerTexture getSkin() {
+//        return this.skin;
+//    }
 
     public @NotNull UUID getUUID() {
         return this.uuid;
     }
 
     public @NotNull String getName() {
-        return getKey();
+        return this.name;
     }
 
     public @NotNull Point getPoint() {
@@ -67,7 +78,7 @@ public class OfflineLoc extends Keyed {
 
     @Override
     public @NotNull String toString() {
-        return "DeathSpot{"
+        return "OfflineLoc{"
                 + "uuid=" + getUUID()
                 + ",name=" + getName()
                 + ",point=" + getPoint()
