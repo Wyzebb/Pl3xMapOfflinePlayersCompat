@@ -52,6 +52,10 @@
 
   <repositories>
     <repository>
+      <id>jitpack.io</id>
+      <url>https://jitpack.io</url>
+    </repository>
+    <repository>
       <id>papermc</id>
       <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
@@ -62,6 +66,14 @@
     <repository>
       <id>Modrinth</id>
       <url>https://api.modrinth.com/maven</url>
+    </repository>
+    <repository>
+      <id>md_5-public</id>
+      <url>https://repo.md-5.net/content/groups/public/</url>
+    </repository>
+    <repository>
+      <id>codemc-releases</id>
+      <url>https://repo.codemc.io/repository/maven-releases/</url>
     </repository>
   </repositories>
 
@@ -76,6 +88,12 @@
       <groupId>maven.modrinth</groupId>
       <artifactId>pl3xmap</artifactId>
       <version>1.21-500</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.github.Wyzebb</groupId>
+      <artifactId>OfflinePlayers</artifactId>
+      <version>v3.4.5</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>
