@@ -17,7 +17,7 @@ public class WorldConfig extends AbstractConfig {
     @Key("layer.label")
     @Comment("""
             Label for map layer""")
-    public String LAYER_LABEL = "Death Spots";
+    public String LAYER_LABEL = "Offline Players";
     @Key("layer.show-controls")
     @Comment("""
             Show controls for map layer""")
@@ -41,7 +41,7 @@ public class WorldConfig extends AbstractConfig {
 
     @Key("marker.seconds-to-show")
     @Comment("""
-            How many seconds to show a death spot for.""")
+            How many seconds to show an offline player for.""")
     public int SECONDS_TO_SHOW = 300;
 
     @Key("marker.icon.size")
