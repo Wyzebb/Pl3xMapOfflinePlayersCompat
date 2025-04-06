@@ -2,13 +2,11 @@ package me.wyzebb.pl3xMapOfflinePlayersCompat.markers;
 
 import java.util.Objects;
 import java.util.UUID;
+
+import de.snap20lp.offlineplayers.OfflinePlayer;
 import net.pl3x.map.core.Keyed;
-import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.markers.Point;
-import net.pl3x.map.core.player.PlayerTexture;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,14 +17,14 @@ public class OfflineLoc extends Keyed {
     private final String name;
 //    private final PlayerTexture skin;
 
-    public OfflineLoc(@NotNull Player player) {
-        super(player.getUniqueId().toString());
+    public OfflineLoc(@NotNull OfflinePlayer player) {
+        super(player.getOfflinePlayer().getUniqueId().toString());
 
-        Location loc = player.getLocation();
-        this.uuid = player.getUniqueId();
+        Location loc = player.getOfflinePlayer().getLocation();
+        this.uuid = player.getOfflinePlayer().getUniqueId();
         this.point = Point.of(loc.getX(), loc.getZ());
         this.time = System.currentTimeMillis();
-        this.name = player.getName();
+        this.name = player.getOfflinePlayer().getName();
 //        this.skin = new PlayerTexture(Pl3xMap.api().getPlayerRegistry().get(player.getUniqueId()));
     }
 
