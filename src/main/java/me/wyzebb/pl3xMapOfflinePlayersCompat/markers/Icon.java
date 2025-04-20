@@ -18,7 +18,7 @@ public enum Icon {
 
     Icon() {
         this.name = name().toLowerCase(Locale.ROOT);
-        this.key = String.format("%s_%s", OfflineLayer.KEY, this.name);
+        this.key = String.format("%s_%s", DeathsLayer.KEY, this.name);
     }
 
     public @NotNull String getKey() {

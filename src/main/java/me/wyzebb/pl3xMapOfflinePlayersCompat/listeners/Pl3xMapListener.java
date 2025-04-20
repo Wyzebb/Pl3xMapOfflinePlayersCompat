@@ -1,13 +1,9 @@
 package me.wyzebb.pl3xMapOfflinePlayersCompat.listeners;
 
-import de.snap20lp.offlineplayers.OfflinePlayer;
-import de.snap20lp.offlineplayers.events.OfflinePlayerDeathEvent;
-import de.snap20lp.offlineplayers.events.OfflinePlayerDespawnEvent;
-import de.snap20lp.offlineplayers.events.OfflinePlayerSpawnEvent;
 import me.wyzebb.pl3xMapOfflinePlayersCompat.configuration.WorldConfig;
 import me.wyzebb.pl3xMapOfflinePlayersCompat.markers.Icon;
-import me.wyzebb.pl3xMapOfflinePlayersCompat.markers.OfflineLayer;
-import me.wyzebb.pl3xMapOfflinePlayersCompat.markers.OfflineLoc;
+import me.wyzebb.pl3xMapOfflinePlayersCompat.markers.DeathsLayer;
+import me.wyzebb.pl3xMapOfflinePlayersCompat.markers.DeathLoc;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.event.EventHandler;
 import net.pl3x.map.core.event.EventListener;
@@ -20,47 +16,24 @@ import net.pl3x.map.core.world.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.jetbrains.annotations.NotNull;
 
 public class Pl3xMapListener implements EventListener, Listener {
-    public static final Registry<OfflineLoc> Pl3xMapOfflinePlayersCompat = new Registry<>();
+    public static final Registry<DeathLoc> Pl3xMapOfflinePlayersCompat = new Registry<>();
 
     public Pl3xMapListener() {
         Pl3xMap.api().getEventRegistry().register(this);
     }
 
     @org.bukkit.event.EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onOfflinePlayerLeave(@NotNull OfflinePlayerSpawnEvent event) {
-        OfflinePlayer player = event.getOfflinePlayer();
-        World world = Pl3xMap.api().getWorldRegistry().get(player.getCloneEntity().getWorld().getName());
+    public void onPlayerDeath(@NotNull PlayerDeathEvent event) {
+        Player player = event.getPlayer();
+        World world = Pl3xMap.api().getWorldRegistry().get(player.getWorld().getName());
 
-        if (world != null && world.isEnabled() && world.getLayerRegistry().has(OfflineLayer.KEY)) {
-            Pl3xMapOfflinePlayersCompat.register(new OfflineLoc(player));
-        }
-    }
-
-    @org.bukkit.event.EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onOfflinePlayerJoin(@NotNull OfflinePlayerDespawnEvent event) {
-        OfflinePlayer player = event.getOfflinePlayer();
-        World world = Pl3xMap.api().getWorldRegistry().get(player.getCloneEntity().getWorld().getName());
-
-        if (world != null && world.isEnabled() && world.getLayerRegistry().has(OfflineLayer.KEY)) {
-            if (Pl3xMapOfflinePlayersCompat.has(player.getOfflinePlayer().getUniqueId().toString())) {
-                Pl3xMapOfflinePlayersCompat.unregister(player.getOfflinePlayer().getUniqueId().toString());
-            }
-        }
-    }
-
-    @org.bukkit.event.EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onOfflinePlayerDeath(@NotNull OfflinePlayerDeathEvent event) {
-        OfflinePlayer player = event.getOfflinePlayer();
-        World world = Pl3xMap.api().getWorldRegistry().get(player.getCloneEntity().getWorld().getName());
-
-        if (world != null && world.isEnabled() && world.getLayerRegistry().has(OfflineLayer.KEY)) {
-            if (Pl3xMapOfflinePlayersCompat.has(player.getOfflinePlayer().getUniqueId().toString())) {
-                Pl3xMapOfflinePlayersCompat.unregister(player.getOfflinePlayer().getUniqueId().toString());
+        if (world != null && world.isEnabled() && world.getLayerRegistry().has(DeathsLayer.KEY)) {
+            if (Pl3xMapOfflinePlayersCompat.has(player.getUniqueId().toString())) {
+                Pl3xMapOfflinePlayersCompat.unregister(player.getUniqueId().toString());
             }
         }
     }
@@ -84,19 +57,19 @@ public class Pl3xMapListener implements EventListener, Listener {
     @EventHandler
     public void onWorldUnloaded(@NotNull WorldUnloadedEvent event) {
         try {
-            event.getWorld().getLayerRegistry().unregister(OfflineLayer.KEY);
+            event.getWorld().getLayerRegistry().unregister(DeathsLayer.KEY);
         } catch (Throwable ignore) {
         }
     }
 
     private void registerWorld(@NotNull World world) {
-        world.getLayerRegistry().register(new OfflineLayer(new WorldConfig(world)));
+        world.getLayerRegistry().register(new DeathsLayer(new WorldConfig(world)));
     }
 
     public static void shutdown() {
         Pl3xMap.api().getWorldRegistry().forEach(world -> {
             try {
-                world.getLayerRegistry().unregister(OfflineLayer.KEY);
+                world.getLayerRegistry().unregister(DeathsLayer.KEY);
             } catch (Throwable ignore) {
             }
         });

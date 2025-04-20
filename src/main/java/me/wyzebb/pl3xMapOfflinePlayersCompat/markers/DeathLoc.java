@@ -3,34 +3,28 @@ package me.wyzebb.pl3xMapOfflinePlayersCompat.markers;
 import java.util.Objects;
 import java.util.UUID;
 
-import de.snap20lp.offlineplayers.OfflinePlayer;
 import net.pl3x.map.core.Keyed;
 import net.pl3x.map.core.markers.Point;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class OfflineLoc extends Keyed {
+public class DeathLoc extends Keyed {
     private final UUID uuid;
     private final Point point;
     private final long time;
     private final String name;
-//    private final PlayerTexture skin;
 
-    public OfflineLoc(@NotNull OfflinePlayer player) {
-        super(player.getOfflinePlayer().getUniqueId().toString());
+    public DeathLoc(@NotNull Player player) {
+        super(player.getUniqueId().toString());
 
-        Location loc = player.getOfflinePlayer().getLocation();
-        this.uuid = player.getOfflinePlayer().getUniqueId();
+        Location loc = player.getLocation();
+        this.uuid = player.getUniqueId();
         this.point = Point.of(loc.getX(), loc.getZ());
         this.time = System.currentTimeMillis();
-        this.name = player.getOfflinePlayer().getName();
-//        this.skin = new PlayerTexture(Pl3xMap.api().getPlayerRegistry().get(player.getUniqueId()));
+        this.name = player.getName();
     }
-
-//    public @NotNull PlayerTexture getSkin() {
-//        return this.skin;
-//    }
 
     public @NotNull UUID getUUID() {
         return this.uuid;
@@ -63,7 +57,7 @@ public class OfflineLoc extends Keyed {
         if (getClass() != o.getClass()) {
             return false;
         }
-        OfflineLoc other = (OfflineLoc) o;
+        DeathLoc other = (DeathLoc) o;
         return getUUID().equals(other.getUUID()) &&
                 getName().equals(other.getName()) &&
                 getPoint().equals(other.getPoint());
@@ -76,7 +70,7 @@ public class OfflineLoc extends Keyed {
 
     @Override
     public @NotNull String toString() {
-        return "OfflineLoc{"
+        return "DeathLoc{"
                 + "uuid=" + getUUID()
                 + ",name=" + getName()
                 + ",point=" + getPoint()

@@ -2,7 +2,6 @@ package me.wyzebb.pl3xMapOfflinePlayersCompat;
 
 import me.wyzebb.pl3xMapOfflinePlayersCompat.listeners.Pl3xMapListener;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Pl3xMapOfflinePlayersCompat extends JavaPlugin {

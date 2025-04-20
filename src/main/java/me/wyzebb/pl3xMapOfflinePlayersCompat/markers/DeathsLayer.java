@@ -13,13 +13,13 @@ import net.pl3x.map.core.markers.option.Options;
 import org.bukkit.Bukkit;
 import org.jetbrains.annotations.NotNull;
 
-public class OfflineLayer extends WorldLayer {
-    public static final String KEY = "Pl3xMapOfflinePlayersCompat";
+public class DeathsLayer extends WorldLayer {
+    public static final String KEY = "Pl3xMapDeaths";
 
     private final WorldConfig config;
     private final Options options;
 
-    public OfflineLayer(@NotNull WorldConfig config) {
+    public DeathsLayer(@NotNull WorldConfig config) {
         super(KEY, config.getWorld(), () -> config.LAYER_LABEL);
         this.config = config;
 
